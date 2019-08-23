@@ -29,5 +29,15 @@ describe('Heroes Component', () => {
       expect(sut.heroes.length).toEqual(2);
       expect(sut.heroes.find( e => e === heroToDelete)).toBeUndefined();
     });
+
+    it('should call deleteHero with correct Hero', () => {
+      mockHeroService.deleteHero.and.returnValue(of(true));
+      sut.heroes = HEROES;
+      const heroToDelete = HEROES[2];
+
+      sut.delete(heroToDelete);
+
+      expect(mockHeroService.deleteHero).toHaveBeenCalledWith(heroToDelete);
+    });
   });
 });
