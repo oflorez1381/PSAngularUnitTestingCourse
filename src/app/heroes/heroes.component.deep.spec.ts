@@ -49,7 +49,7 @@ describe(' Heroes Component (deep tests)', () => {
   });
 
   it(`should call heroService.deleteHero when the Hero Component's
-      delete button is clicked`, () => {
+      delete button is clicked version 1`, () => {
     spyOn(fixture.componentInstance, 'delete');
     mockHeroService.getHeroes.and.returnValue(of(HEROES));
 
@@ -65,7 +65,7 @@ describe(' Heroes Component (deep tests)', () => {
   });
 
   it(`should call heroService.deleteHero when the Hero Component's
-      delete button is clicked`, () => {
+      delete button is clicked version 2`, () => {
     spyOn(fixture.componentInstance, 'delete');
     mockHeroService.getHeroes.and.returnValue(of(HEROES));
 
@@ -74,6 +74,21 @@ describe(' Heroes Component (deep tests)', () => {
     const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
 
     (<HeroComponent>heroComponents[0].componentInstance).delete.emit(undefined);
+
+    expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
+
+  });
+
+  it(`should call heroService.deleteHero when the Hero Component's
+      delete button is clicked version 3`, () => {
+    spyOn(fixture.componentInstance, 'delete');
+    mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+    fixture.detectChanges();
+
+    const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+
+    heroComponents[0].triggerEventHandler('delete', null);
 
     expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
 
