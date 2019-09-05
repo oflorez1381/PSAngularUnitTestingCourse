@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {HeroService} from '../hero.service';
 import {Location} from '@angular/common';
 import {of} from 'rxjs/internal/observable/of';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 
 describe('Hero Detail Component', () => {
@@ -38,14 +38,12 @@ describe('Hero Detail Component', () => {
     expect(fixture.nativeElement.querySelector('h2').textContent).toContain('SUPERDUDE');
   });
 
-  it('should call updateHero when save is called', (done) => {
+  it('should call updateHero when save is called', fakeAsync(() => {
     mockHeroService.updateHero.and.returnValue(of({}));
     fixture.detectChanges();
     fixture.componentInstance.save();
-
-    setTimeout(() => {
-      expect(mockHeroService.updateHero).toHaveBeenCalled();
-      done();
-    }, 300);
-  });
+    // tick(250); this is used if you know the timeout
+    flush(); // this is used when you don't know the timeout
+    expect(mockHeroService.updateHero).toHaveBeenCalled();
+  }));
 });
