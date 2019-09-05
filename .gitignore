@@ -140,3 +140,5 @@ uploads/
 # ESLint
 ######################
 .eslintcache
+
+/coverage/
